@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ie.ait.msc.discount.store</groupId>
+		<artifactId>discount-store</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>discount-store-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>${project.artifactId}</name>
+	<description>Discount Store EAR project</description>
+
+	<url>http://www.ait.ie</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>ie.ait.msc.discount.store.api</groupId>
+			<artifactId>discount-store-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ie.ait.msc.discount.store.rest.service</groupId>
+			<artifactId>discount-store-retailer-service</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>ie.ait.msc.discount.store.customer.rest.service</groupId>
+			<artifactId>discount-store-customer-service</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>ie.ait.msc.discount.store.db.service</groupId>
+			<artifactId>discount-store-db-service</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<generateApplicationXml>true</generateApplicationXml>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<filtering>true</filtering>
+					<applicationName>${project.parent.artifactId}</applicationName>
+					<finalName>${project.artifactId}-${project.parent.version}</finalName>
+					<modules>
+						<webModule>
+							<groupId>${project.parent.groupId}.rest.service</groupId>
+							<artifactId>${project.parent.artifactId}-retailer-service</artifactId>
+							<contextRoot>DiscountStore</contextRoot>
+						</webModule>
+						<webModule>
+							<groupId>${project.parent.groupId}.customer.rest.service</groupId>
+							<artifactId>${project.parent.artifactId}-customer-service</artifactId>
+							<contextRoot>DiscountStore/Customer</contextRoot>
+						</webModule>
+						<ejbModule>
+							<groupId>${project.parent.groupId}.db.service</groupId>
+							<artifactId>${project.parent.artifactId}-db-service</artifactId>
+						</ejbModule>
+					</modules>
+					<archive>
+						<manifestEntries>
+							<Dependencies>org.apache.commons.logging, org.slf4j, org.omg.api,
+								javax.api, org.apache.commons.codec, org.apache.commons.lang</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
