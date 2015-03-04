@@ -5,13 +5,11 @@ import ie.ait.msc.discount.store.db.service.model.Offer;
 import ie.ait.msc.discount.store.db.service.model.Retailer;
 import ie.ait.msc.discount.store.db.service.model.User;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 @Stateless
 public class DiscountStoreDao implements DiscountStoreDaoLocal {
@@ -32,10 +30,6 @@ public class DiscountStoreDao implements DiscountStoreDaoLocal {
     }
 
     private Retailer getRetailer(String username) {
-
-        TypedQuery<Retailer> queryProductsByName = entityManager.createNamedQuery("Retailer.getRetailerWithUserName", Retailer.class);
-        queryProductsByName.setParameter("username", username);
-        List<Retailer> retailers = queryProductsByName.getResultList();
-        return retailers.get(0);
+        return entityManager.createNamedQuery("getUserWithUserName", User.class).setParameter("userName", username).getSingleResult().getRetailer();
     }
 }

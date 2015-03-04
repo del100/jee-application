@@ -7,13 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-@NamedQueries({ @NamedQuery(name = "getRetailerWithUserName", query = "SELECT u.retailer FROM User u WHERE u.userName=:userName") })
 @Entity
+@NamedQuery(name = "getUserWithUserName", query = "SELECT u FROM User u WHERE u.userName=:userName")
 public class User {
 
     /**
