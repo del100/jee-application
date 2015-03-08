@@ -8,3 +8,10 @@ dependencies {
   deploy project(path: ':discount-store-customer-service', configuration: 'archives')
   deploy project(':discount-store-db-service')
 }
+
+ear {
+    deploymentDescriptor { 
+    	webModule("discount-store-retailer-service.war", "DiscountStore") 
+        webModule("discount-store-customer-service.war", "DiscountStore/Customer") 
+    }
+}
