@@ -1,0 +1,10 @@
+apply plugin: 'ear'
+
+description = 'discount-store-ear'
+
+dependencies {
+  earlib project(':discount-store-api')
+  deploy project(path: ':discount-store-retailer-service', configuration: 'archives')
+  deploy project(path: ':discount-store-customer-service', configuration: 'archives')
+  deploy project(':discount-store-db-service')
+}

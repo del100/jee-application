@@ -1,0 +1,21 @@
+group = 'ie.ait.msc.discount.store.customer.rest.service'
+
+apply plugin: 'war'
+jar.enabled = false
+
+description = 'discount-store-customer-service'
+
+dependencies {
+	
+	providedCompile(group: 'javax.enterprise', name: 'cdi-api', version:'1.0-SP4-redhat-2') {
+		exclude(module: 'jboss-interceptor-api')
+		exclude(module: 'jsr250-api')
+	}
+	providedCompile group: 'org.jboss.spec.javax.annotation', name: 'jboss-annotations-api_1.1_spec', version:'1.0.1.Final-redhat-2'
+	providedCompile group: 'org.jboss.spec.javax.ws.rs', name: 'jboss-jaxrs-api_1.1_spec', version:'1.0.1.Final-redhat-2'
+	providedCompile group: 'org.jboss.spec.javax.ejb', name: 'jboss-ejb-api_3.1_spec', version:'1.0.2.Final-redhat-2'
+	providedCompile group: 'org.jboss.spec.javax.servlet', name: 'jboss-servlet-api_3.0_spec', version:'1.0.2.Final-redhat-1'
+	
+	providedCompile project(':discount-store-api')
+	providedCompile project(':discount-store-db-service')
+}
