@@ -3,10 +3,12 @@ include ':discount-store-api'
 include ':discount-store-retailer-service'
 include ':discount-store-customer-service'
 include ':discount-store-db-service'
+include ':discount-store-testsuite'
 include ':discount-store-ear'
 
 project(':discount-store-api').projectDir = "$rootDir/discount-store-api" as File
 project(':discount-store-retailer-service').projectDir = "$rootDir/discount-store-retailer-service" as File
 project(':discount-store-customer-service').projectDir = "$rootDir/discount-store-customer-service" as File
 project(':discount-store-db-service').projectDir = "$rootDir/discount-store-db-service" as File
+project(':discount-store-testsuite').projectDir = "$rootDir/discount-store-testsuite" as File
 project(':discount-store-ear').projectDir = "$rootDir/discount-store-ear" as File

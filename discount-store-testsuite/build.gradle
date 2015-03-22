@@ -1,0 +1,25 @@
+description = 'discount-store-testsuite'
+
+configurations {
+        provided
+}
+
+sourceSets {
+        main {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
+        }
+        test {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
+        }
+}
+
+dependencies {
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+    testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version:'1.0.4.Final'
+    testCompile group: 'org.jboss.arquillian.container', name: 'arquillian-weld-ee-embedded-1.1', version:'1.0.0.CR5'
+    testCompile group: 'org.jboss.weld', name: 'weld-core', version:'1.1.9.Final'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version:'1.6.4'
+    provided group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version:'3.0.2.Final'
+}

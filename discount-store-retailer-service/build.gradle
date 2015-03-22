@@ -15,4 +15,6 @@ dependencies {
 	providedCompile group: 'org.jboss.spec.javax.servlet', name: 'jboss-servlet-api_3.0_spec', version:'1.0.2.Final-redhat-1'
 	providedCompile project(':discount-store-api')
 	providedCompile project(':discount-store-db-service')
+	testCompile group: 'org.jboss.resteasy', name: 'resteasy-client', version: '3.0.2.Final'
+	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
 }
