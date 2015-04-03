@@ -1,2 +1,22 @@
 group = 'ie.ait.msc.discount.store.api'
 description = 'discount-store-api'
+
+configurations {
+	provided
+}
+
+sourceSets {
+	main {
+		compileClasspath += configurations.provided
+		runtimeClasspath += configurations.provided
+	}
+	test {
+		compileClasspath += configurations.provided
+		runtimeClasspath += configurations.provided
+	}
+}
+
+dependencies {
+	provided group: 'org.jboss.spec.javax.ws.rs', name: 'jboss-jaxrs-api_1.1_spec', version:'1.0.1.Final-redhat-2'
+	
+}

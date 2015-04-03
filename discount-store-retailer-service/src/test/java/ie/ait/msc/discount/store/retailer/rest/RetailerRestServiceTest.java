@@ -22,14 +22,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class RetailerRestServiceTest {
 
     @InjectMocks
-    private RetailerRestService retailerRestService;
+    private RetailerRestServiceImpl retailerRestService;
 
     @Mock
     RetailerServiceLocal retailerService;
 
     @Before
     public void setup() {
-        retailerRestService = new RetailerRestService();
+        retailerRestService = new RetailerRestServiceImpl();
         MockitoAnnotations.initMocks(this);
     }
 

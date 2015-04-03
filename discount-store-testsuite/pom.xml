@@ -15,17 +15,15 @@
 	<url>http://www.ait.ie</url>
 
 	<properties>
+		<maven.test.skip>true</maven.test.skip>
 		<!-- arquillian dependencies -->
 		<version.arquillian.bom>1.0.4.Final</version.arquillian.bom>
 		<version.surefire.plugin>2.17</version.surefire.plugin>
 		<version.arquillian.rest.extension>1.0.0.Final-SNAPSHOT</version.arquillian.rest.extension>
-		<!-- embedded container dependecies -->
-		<version.weld.ee>1.0.0.CR5</version.weld.ee>
-		<version.weld>1.1.9.Final</version.weld>
-		<!-- JBOSS managed container dependencies -->		
-		<version.arq.jboss.as>7.2.0.Final</version.arq.jboss.as>
-		<version.jboss.as>6.2.4</version.jboss.as>
-		<jboss.eap.home>jboss-eap-${version.jboss.as}</jboss.eap.home>		
+		<!-- JBOSS managed container dependencies -->
+		<version.arq.jboss.as>7.1.1.Final</version.arq.jboss.as>
+		<!-- Rest easy -->
+		<version.resteasy>3.0.2.Final</version.resteasy>
 	</properties>
 
 	<!-- arquillian BOM -->
@@ -59,24 +57,98 @@
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-rest-client-api</artifactId>
+			<version>${version.arquillian.rest.extension}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-rest-client-impl-3x</artifactId>
+			<version>${version.arquillian.rest.extension}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Rest Easy Client dependencies -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>jaxrs-api</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- project dependencies -->
+		<dependency>
+			<groupId>ie.ait.msc.discount.store.rest.service</groupId>
+			<artifactId>discount-store-retailer-service</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Misc -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
-   	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${version.surefire.plugin}</version>
-			</plugin>
-		</plugins>
-	</build>
-
 	<profiles>
+		<!-- -Dts to activate testsuite -->
 		<profile>
-			<id>arquillian-weld-ee-embedded</id>
+			<id>activate_testsuite</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>ts</name>
+				</property>
 			</activation>
+			<properties>
+				<maven.test.skip>false</maven.test.skip>
+			</properties>
+		</profile>
+
+		<profile>
+			<!-- This profile tests the components in a JBOSS standalone container. 
+				For this profile to work you must download and install a version of JBOSS 
+				AS, and the JBOSS_HOME env variable must be set and updated in the arquillian.xml 
+				in the test resources folder. -->
+			<id>arq-jbossas-managed</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${version.surefire.plugin}</version>
+						<configuration>
+							<systemProperties>
+								<jboss.version>${version.arq.jboss.as}</jboss.version>
+							</systemProperties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.spec</groupId>
@@ -85,20 +157,14 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.jboss.arquillian.container</groupId>
-					<artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-					<version>${version.weld.ee}</version>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<version>${version.arq.jboss.as}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-core</artifactId>
-					<version>${version.weld}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
+					<groupId>org.jboss.arquillian.protocol</groupId>
+					<artifactId>arquillian-protocol-servlet</artifactId>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>

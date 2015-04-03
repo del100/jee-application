@@ -21,15 +21,19 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(Arquillian.class)
 public class DiscountStoreTest {
 
-    @Deployment
-    public static EnterpriseArchive createMociHandlerDeployment() {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountStoreTest.class);
 
+    @Deployment(testable = false)
+    public static EnterpriseArchive createMociHandlerDeployment() {
         File earFile = new File("/home/eeiwdey/git/jee-application/discount-store-ear/target/discount-store-ear-0.0.1-SNAPSHOT.ear");
         EnterpriseArchive archive = ShrinkWrap.createFromZipFile(EnterpriseArchive.class, earFile);
+        LOGGER.info("EEIWDEY " + archive.toString(true));
         return archive;
     }
 

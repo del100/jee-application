@@ -1,25 +1,38 @@
 description = 'discount-store-testsuite'
 
 configurations {
-        provided
+	provided
 }
 
 sourceSets {
-        main {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
-        }
-        test {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
-        }
+  	main {
+  		compileClasspath += configurations.provided
+  		runtimeClasspath += configurations.provided
+  	}
+  	test {
+ 		compileClasspath += configurations.provided
+    	runtimeClasspath += configurations.provided
+  	}
 }
 
 dependencies {
-    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
-    testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version:'1.0.4.Final'
-    testCompile group: 'org.jboss.arquillian.container', name: 'arquillian-weld-ee-embedded-1.1', version:'1.0.0.CR5'
-    testCompile group: 'org.jboss.weld', name: 'weld-core', version:'1.1.9.Final'
-    testCompile group: 'org.slf4j', name: 'slf4j-simple', version:'1.6.4'
-    provided group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version:'3.0.2.Final'
+	testCompile 'org.mockito:mockito-all:1.9.5'
+	testCompile 'org.slf4j:slf4j-simple:1.6.4'
+
+	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.0.4.Final'
+
+	testCompile 'org.jboss.as:jboss-as-arquillian-container-managed:7.1.1.Final'
+	testCompile 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.0.4.Final'
+
+	testCompile 'org.jboss.arquillian.extension:arquillian-rest-client-api:1.0.0.Final-SNAPSHOT'
+	testCompile 'org.jboss.arquillian.extension:arquillian-rest-client-impl-3x:1.0.0.Final-SNAPSHOT'
+
+	provided 'org.jboss.spec:jboss-javaee-6.0:3.0.2.Final'
+	testCompile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.2.Final'
+	testCompile 'org.jboss.resteasy:resteasy-client:3.0.2.Final'
+	testCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.2.Final'
+	testCompile 'org.jboss.resteasy:resteasy-jaxb-provider:3.0.2.Final'
+	testCompile 'org.jboss.resteasy:jaxrs-api:3.0.2.Final'
+
+	testCompile project(':discount-store-retailer-service')
 }
