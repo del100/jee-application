@@ -1,11 +1,26 @@
 description = 'discount-store-testsuite'
 
+// This module contains the arquillian integration tests
+// Integration tests are disabled by default
+// Enable the integration tests with the command 'gradle -PperformIntegrationTests=true build'
+
+ext {
+	simpleSl4jVersion = '1.6.4'
+	arquillianVersion = '1.0.4.Final'
+	jbossJeeVersion = '3.0.2.Final'
+	arquillianJbossAs = '7.1.1.Final'
+	arquillianRestExtensionVersion = '1.0.0.Final-SNAPSHOT'
+}
+
+ext.performIntegrationTests = project.hasProperty('performIntegrationTests') ? project.getProperty('performIntegrationTests') : false
+tasks.findByPath(':discount-store-testsuite:test').enabled = performIntegrationTests
+
 configurations {
 	provided
 }
 
 sourceSets {
-  	main {
+	main {
   		compileClasspath += configurations.provided
   		runtimeClasspath += configurations.provided
   	}
@@ -16,23 +31,16 @@ sourceSets {
 }
 
 dependencies {
-	testCompile 'org.mockito:mockito-all:1.9.5'
-	testCompile 'org.slf4j:slf4j-simple:1.6.4'
+	testCompile "org.slf4j:slf4j-simple:$simpleSl4jVersion"
 
-	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.0.4.Final'
+	testCompile "org.jboss.arquillian.junit:arquillian-junit-container:$arquillianVersion"
+	testCompile "org.jboss.as:jboss-as-arquillian-container-managed:$arquillianJbossAs"
+	testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet:$arquillianVersion"
+	testCompile "org.jboss.arquillian.extension:arquillian-rest-client-api:$arquillianRestExtensionVersion"
+	testCompile "org.jboss.arquillian.extension:arquillian-rest-client-impl-3x:$arquillianRestExtensionVersion"
 
-	testCompile 'org.jboss.as:jboss-as-arquillian-container-managed:7.1.1.Final'
-	testCompile 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.0.4.Final'
-
-	testCompile 'org.jboss.arquillian.extension:arquillian-rest-client-api:1.0.0.Final-SNAPSHOT'
-	testCompile 'org.jboss.arquillian.extension:arquillian-rest-client-impl-3x:1.0.0.Final-SNAPSHOT'
-
-	provided 'org.jboss.spec:jboss-javaee-6.0:3.0.2.Final'
-	testCompile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.2.Final'
-	testCompile 'org.jboss.resteasy:resteasy-client:3.0.2.Final'
-	testCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.2.Final'
-	testCompile 'org.jboss.resteasy:resteasy-jaxb-provider:3.0.2.Final'
-	testCompile 'org.jboss.resteasy:jaxrs-api:3.0.2.Final'
+	provided "org.jboss.spec:jboss-javaee-6.0:$jbossJeeVersion"
+	testCompile "org.jboss.resteasy:jaxrs-api:jbossJeeVersion"
 
 	testCompile project(':discount-store-retailer-service')
 }
