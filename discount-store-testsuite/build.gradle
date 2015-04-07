@@ -9,7 +9,6 @@ ext {
 	arquillianVersion = '1.0.4.Final'
 	jbossJeeVersion = '3.0.2.Final'
 	arquillianJbossAs = '7.1.1.Final'
-	arquillianRestExtensionVersion = '1.0.0.Final-SNAPSHOT'
 }
 
 ext.performIntegrationTests = project.hasProperty('performIntegrationTests') ? project.getProperty('performIntegrationTests') : false
@@ -36,11 +35,11 @@ dependencies {
 	testCompile "org.jboss.arquillian.junit:arquillian-junit-container:$arquillianVersion"
 	testCompile "org.jboss.as:jboss-as-arquillian-container-managed:$arquillianJbossAs"
 	testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet:$arquillianVersion"
-	testCompile "org.jboss.arquillian.extension:arquillian-rest-client-api:$arquillianRestExtensionVersion"
-	testCompile "org.jboss.arquillian.extension:arquillian-rest-client-impl-3x:$arquillianRestExtensionVersion"
 
 	provided "org.jboss.spec:jboss-javaee-6.0:$jbossJeeVersion"
-	testCompile "org.jboss.resteasy:jaxrs-api:jbossJeeVersion"
+	testCompile "org.jboss.resteasy:jaxrs-api:$jbossJeeVersion"
+	testCompile "org.jboss.resteasy:resteasy-jaxrs:$jbossJeeVersion"
+    testCompile "org.jboss.resteasy:resteasy-client:$jbossJeeVersion"
 
 	testCompile project(':discount-store-retailer-service')
 }

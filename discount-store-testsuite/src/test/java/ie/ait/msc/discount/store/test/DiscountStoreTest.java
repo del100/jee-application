@@ -14,9 +14,16 @@ package ie.ait.msc.discount.store.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URL;
+
+import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.junit.Test;
@@ -29,16 +36,28 @@ public class DiscountStoreTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountStoreTest.class);
 
+    @ArquillianResource
+    private URL deploymentURL;
+
     @Deployment(testable = false)
     public static EnterpriseArchive createMociHandlerDeployment() {
-        File earFile = new File("/home/eeiwdey/git/jee-application/discount-store-ear/target/discount-store-ear-0.0.1-SNAPSHOT.ear");
+        // Default is to use ear built by Maven
+        File earFile = new File("../discount-store-ear/target/discount-store-ear-0.0.1-SNAPSHOT.ear");
+        if (!earFile.exists())
+            earFile = new File("../discount-store-ear/build/libs/discount-store-ear-0.0.1-SNAPSHOT.ear");
         EnterpriseArchive archive = ShrinkWrap.createFromZipFile(EnterpriseArchive.class, earFile);
         LOGGER.info("EEIWDEY " + archive.toString(true));
         return archive;
     }
 
     @Test
-    public void someTest() {
-        assertTrue(true);
+    public void basicRetailerServiceTest() {
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target = client.target("http://localhost:8080/DiscountStore/rest/retailer/test");
+        Response response = target.request().get();
+        String value = response.readEntity(String.class);
+        LOGGER.info("EEIWDEY " + value);
+        assertTrue(value.equals("worked"));
+        response.close();
     }
 }

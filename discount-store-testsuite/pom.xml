@@ -19,7 +19,6 @@
 		<!-- arquillian dependencies -->
 		<version.arquillian.bom>1.0.4.Final</version.arquillian.bom>
 		<version.surefire.plugin>2.17</version.surefire.plugin>
-		<version.arquillian.rest.extension>1.0.0.Final-SNAPSHOT</version.arquillian.rest.extension>
 		<!-- JBOSS managed container dependencies -->
 		<version.arq.jboss.as>7.1.1.Final</version.arq.jboss.as>
 		<!-- Rest easy -->
@@ -57,22 +56,22 @@
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-rest-client-api</artifactId>
-			<version>${version.arquillian.rest.extension}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-rest-client-impl-3x</artifactId>
-			<version>${version.arquillian.rest.extension}</version>
-			<scope>test</scope>
-		</dependency>
 		<!-- Rest Easy Client dependencies -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>jaxrs-api</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
 			<version>${version.resteasy}</version>
 			<scope>test</scope>
 		</dependency>
