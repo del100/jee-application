@@ -22,7 +22,7 @@
 		<!-- JBOSS managed container dependencies -->
 		<version.arq.jboss.as>7.1.1.Final</version.arq.jboss.as>
 		<!-- Rest easy -->
-		<version.resteasy>3.0.2.Final</version.resteasy>
+		<version.resteasy>3.0.1.Final</version.resteasy>
 	</properties>
 
 	<!-- arquillian BOM -->
