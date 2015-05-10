@@ -1,6 +1,7 @@
 package ie.ait.msc.discount.store.db.service.dao;
 
 import ie.ait.msc.discount.store.db.service.api.DiscountStoreDaoLocal;
+import ie.ait.msc.discount.store.db.service.api.DiscountStoreDbException;
 import ie.ait.msc.discount.store.db.service.model.Offer;
 import ie.ait.msc.discount.store.db.service.model.Retailer;
 import ie.ait.msc.discount.store.db.service.model.User;
@@ -31,5 +32,17 @@ public class DiscountStoreDao implements DiscountStoreDaoLocal {
 
     private Retailer getRetailer(String username) {
         return entityManager.createNamedQuery("getUserWithUserName", User.class).setParameter("userName", username).getSingleResult().getRetailer();
+    }
+
+    @Override
+    public void addOffer(Offer offer, String username) {
+        try {
+            entityManager.persist(offer);
+            Retailer retailer = getRetailer(username);
+            retailer.getOffers().add(offer);
+            entityManager.persist(retailer);
+        } catch (Exception e) {
+            throw new DiscountStoreDbException(e.getMessage(), e);
+        }
     }
 }

@@ -2,6 +2,7 @@ package ie.ait.msc.discount.store.retailer.ejb;
 
 import ie.ait.msc.discount.store.db.service.api.DiscountStoreDaoLocal;
 import ie.ait.msc.discount.store.db.service.model.Offer;
+import ie.ait.msc.discount.store.db.service.model.OfferCategory;
 import ie.ait.msc.discount.store.db.service.model.User;
 import ie.ait.msc.discount.store.dto.OfferDto;
 import ie.ait.msc.discount.store.dto.RetailerDto;
@@ -13,8 +14,13 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Stateless
 public class RetailerService implements RetailerServiceLocal {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RetailerService.class);
 
     @Inject
     DiscountStoreDaoLocal dao;
@@ -35,11 +41,12 @@ public class RetailerService implements RetailerServiceLocal {
     @Override
     public List<OfferDto> getAllOffers(String username) {
         Set<Offer> offers = dao.getOffers(username);
-        List<OfferDto> dtoOffers = createDtoOffers(offers);
+        List<OfferDto> dtoOffers = createOfferDtos(offers);
         return dtoOffers;
     }
 
-    private List<OfferDto> createDtoOffers(Set<Offer> offers) {
+    // TODO - create a factory to convert the DTO
+    private List<OfferDto> createOfferDtos(Set<Offer> offers) {
         List<OfferDto> dtoOffers = new ArrayList<OfferDto>();
         for (Offer offer : offers) {
             OfferDto dto = new OfferDto();
@@ -48,5 +55,18 @@ public class RetailerService implements RetailerServiceLocal {
             dtoOffers.add(dto);
         }
         return dtoOffers;
+    }
+
+    @Override
+    public void addNewOffer(OfferDto offerDto, String username) {
+        LOGGER.info("Adding new offer [{}]", offerDto.getUrl());
+        OfferCategory category = new OfferCategory();
+        // TODO - create enum to represent category type
+        category.setDescription("test");
+        Offer offer = new Offer();
+        offer.setDescription(offerDto.getDescription());
+        offer.setUrl(offerDto.getUrl());
+        offer.setCategory(category);
+        dao.addOffer(offer, username);
     }
 }

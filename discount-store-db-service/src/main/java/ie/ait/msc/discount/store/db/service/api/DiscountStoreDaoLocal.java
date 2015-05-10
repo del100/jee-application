@@ -10,4 +10,6 @@ public interface DiscountStoreDaoLocal {
     void addUser(User user);
 
     Set<Offer> getOffers(String username);
+
+    void addOffer(Offer offer, String user);
 }

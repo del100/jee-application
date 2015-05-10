@@ -12,4 +12,6 @@ public interface RetailerServiceLocal {
     void createAccount(RetailerDto retailerDto);
 
     List<OfferDto> getAllOffers(String username);
+
+    void addNewOffer(OfferDto offerDto, String username);
 }

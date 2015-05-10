@@ -23,13 +23,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class RetailerRestServiceTest {
 
+    private String mockUsername = "user";
+
     @InjectMocks
     private RetailerRestServiceImpl retailerRestService;
 
     @Mock
     private RetailerServiceLocal mockRetailerService;
     @Mock
-    private OfferDto mockOffer;
+    private OfferDto mockOfferDto;
     @Mock
     private RetailerDto mockRetailer;
 
@@ -38,17 +40,17 @@ public class RetailerRestServiceTest {
     @Before
     public void setup() {
         retailerRestService = new RetailerRestServiceImpl();
-        offers.add(mockOffer);
+        offers.add(mockOfferDto);
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void getAllOffers_success() {
         // setup
-        when(mockRetailerService.getAllOffers("user")).thenReturn(offers);
+        when(mockRetailerService.getAllOffers(mockUsername)).thenReturn(offers);
 
         // execute
-        Response response = retailerRestService.getAllOffers("user");
+        Response response = retailerRestService.getAllOffers(mockUsername);
 
         // verify
         assertTrue(response.getStatus() == 200);
@@ -56,12 +58,27 @@ public class RetailerRestServiceTest {
     }
 
     @Test
-    public void addCreateAccount_success() {
+    public void createAccount_success() {
         // setup
         Mockito.doNothing().when(mockRetailerService).createAccount(mockRetailer);
 
         // execute
         Response response = retailerRestService.createAccount(mockRetailer);
+
+        // verify
+        assertTrue(response.getStatus() == 200);
+    }
+
+    @Test
+    public void createOffer_success() {
+
+        // setup
+        Mockito.doNothing().when(mockRetailerService).addNewOffer(mockOfferDto, mockUsername);
+        when(mockOfferDto.getUrl()).thenReturn("url");
+        when(mockOfferDto.getDescription()).thenReturn("description");
+
+        // execute
+        Response response = retailerRestService.createOffer(mockOfferDto, mockUsername);
 
         // verify
         assertTrue(response.getStatus() == 200);

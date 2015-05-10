@@ -56,8 +56,7 @@ public class DiscountStoreTest {
         ResteasyWebTarget target = client.target("http://localhost:8080/DiscountStore/rest/retailer/test");
         Response response = target.request().get();
         String value = response.readEntity(String.class);
-        LOGGER.info("EEIWDEY " + value);
-        assertTrue(value.equals("worked"));
+        assertTrue(value.equals("hello from server"));
         response.close();
     }
 }
