@@ -11,7 +11,7 @@ dependencies {
 
 ear {
     deploymentDescriptor { 
-    	webModule("discount-store-retailer-service.war", "DiscountStore") 
-        webModule("discount-store-customer-service.war", "DiscountStore/Customer") 
+    	webModule("discount-store-retailer-service-" + project.version + ".war", "DiscountStore") 
+        webModule("discount-store-customer-service-" + project.version + ".war", "DiscountStore/Customer") 
     }
 }
