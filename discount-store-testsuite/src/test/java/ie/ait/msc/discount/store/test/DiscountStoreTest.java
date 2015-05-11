@@ -46,7 +46,7 @@ public class DiscountStoreTest {
         if (!earFile.exists())
             earFile = new File("../discount-store-ear/build/libs/discount-store-ear-0.0.1-SNAPSHOT.ear");
         EnterpriseArchive archive = ShrinkWrap.createFromZipFile(EnterpriseArchive.class, earFile);
-        LOGGER.info("EEIWDEY " + archive.toString(true));
+        LOGGER.info("Content of ear: " + archive.toString(true));
         return archive;
     }
 
@@ -57,6 +57,17 @@ public class DiscountStoreTest {
         Response response = target.request().get();
         String value = response.readEntity(String.class);
         assertTrue(value.equals("hello from server"));
+        response.close();
+    }
+
+    @Test
+    public void getAllOffersTest() {
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target = client.target("http://localhost:8080/DiscountStore/rest/retailer/AllOffers/user1");
+        Response response = target.request().get();
+        String value = response.readEntity(String.class);
+        assertTrue(value.contains("http://www.sometest/shirt"));
+        assertTrue(value.contains("A really nice shirt"));
         response.close();
     }
 }
